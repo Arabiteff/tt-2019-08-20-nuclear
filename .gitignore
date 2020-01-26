@@ -60,5 +60,13 @@ vignettes/*.pdf
 # R package: bookdown caching files
 /*_files/
 
+# other files to ignore
+app_backup_01.R
+nuclear_explosions.Rproj
+rsconnect/
+sipri-report-original.pdf
+
+
+
 # End of https://www.gitignore.io/api/r,linux
 
