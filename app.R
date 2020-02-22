@@ -140,7 +140,8 @@ server <- function(input, output, session) {
   output$table <- DT::renderDataTable({ # alias renderDT()
     ne_filtered() %>%
       select(c("date_long", "id_no", "country", "region", "source", "purpose", "name")) %>%
-      datatable(options = list(pageLength = 5,
+      datatable(colnames = c("Date", "Explosion ID", "Country", "Region", "Source", "Purpose", "Name"), 
+                options = list(pageLength = 5,
                                order = list(2, "asc")))
   })
   
