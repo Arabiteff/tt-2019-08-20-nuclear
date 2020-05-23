@@ -1,7 +1,6 @@
 # nuclear explosions tidy tuesday
 
-###########################################################
-# required packages
+# required packages -------------------------------------------------------
 library(plyr)
 library(dplyr)
 library(tidyr)
@@ -10,9 +9,10 @@ library(shiny)
 library(shinythemes)
 library(DT)
 library(timevis)
+library(shinybusy)
 
-###########################################################
-# import data
+
+# import data -------------------------------------------------------------
 ne <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-08-20/nuclear_explosions.csv")
 
 # correct format for date_long
@@ -38,11 +38,15 @@ ne <- ne %>% mutate(region = mapvalues(region, from = "AZGIE KAZAKH" , to = "AZG
 ne <- ne %>% mutate(region = mapvalues(region, from = "BASHKI RUSS" , to = "BASHKIR RUSS"))
 ne <- ne %>% mutate(region = mapvalues(region, from = "KAZAKH" , to = "KAZAKHSTAN"))
 
-###########################################################
-# ui section
+
+
+# shiny app ---------------------------------------------------------------
+
+# ui section --------------------------------------------------------------
 ui <- fluidPage(
   theme = shinytheme("sandstone"),
   headerPanel("Nuclear Explosions Shiny App"),
+  add_busy_spinner(spin = "fading-circle"),
   fluidRow( 
     column(4,
            
@@ -70,15 +74,15 @@ ui <- fluidPage(
                         ),
            
            h2("Purpose of detonation:"),
-           HTML(paste("<p> <b> COMBAT </b>: WWII bombs dropped over Japan <p>")),
-           HTML(paste("<p> <b> FMS </b>: Soviet test, study phenomenon of nuclear explosion <p>")),
-           HTML(paste("<p> <b> ME </b>: Military Exercise <p>")),
-           HTML(paste("<p> <b> PNE </b>: Peaceful nuclear explosion <p>")),
-           HTML(paste("<p> <b> SAM </b>: Soviet test, accidental mode/emergency <p>")),
-           HTML(paste("<p> <b> SSE </b>: French/US tests - testing safety of nuclear weapons in case of accident <p>")),
-           HTML(paste("<p> <b> TRANSP </b>: Transportation-storage purposes <p>")),
-           HTML(paste("<p> <b> WE </b>: British, French, US, evaluate effects of nuclear detonation on various targets <p>")),
-           HTML(paste("<p> <b> WR </b>: Weapons development program <p>"))
+           h5(strong("COMBAT:"), "WWII bombs dropped over Japan"),
+           h5(strong("FMS:"), "Soviet test, study phenomenon of nuclear explosion"),
+           h5(strong("ME:"), "Military Exercise"),
+           h5(strong("PNE:"), "Peaceful nuclear explosion"),
+           h5(strong("SAM:"), "Soviet test, accidental mode/emergency"),
+           h5(strong("SSE:"), "French/US tests - testing safety of nuclear weapons in case of accident"),
+           h5(strong("TRANSP:"), "Transportation-storage purposes"),
+           h5(strong("WE:"), "British, French, US, evaluate effects of nuclear detonation on various targets"),
+           h5(strong("WR:"), "Weapons development program")
            
            ),
     
@@ -96,8 +100,9 @@ ui <- fluidPage(
 )
 
 
-###########################################################
-# server section
+
+
+# server section ----------------------------------------------------------
 server <- function(input, output, session) {
   
   # update select input options for region
